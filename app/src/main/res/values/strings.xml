@@ -4,4 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name ="filters">filters</string>
+    <color name="white">#FFFFFF</color>
+    <color name="colorPrimary">#FF5675</color>
+    <color name="black">#000000</color>
 </resources>

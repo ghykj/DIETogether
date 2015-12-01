@@ -30,7 +30,7 @@ class GraphicsView extends View {
     protected void onDraw(Canvas canvas) {
 
         bigCircleBounds.set(bigCircleX - bigCircleRadius, bigCircleY - bigCircleRadius, bigCircleX + bigCircleRadius, bigCircleY + bigCircleRadius);
-        paint.setColor(Color.MAGENTA);
+        paint.setColor(Color.parseColor("#FF7483"));
         canvas.drawOval(bigCircleBounds, paint);
 
         paint.setColor(Color.WHITE);
