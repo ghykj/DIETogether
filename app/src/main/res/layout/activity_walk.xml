@@ -12,11 +12,21 @@
         android:layout_alignParentStart="true"
         android:id="@+id/include" />
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:background="@drawable/walktitle"
+        android:scaleType="fitXY"
+        android:id="@+id/imageView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
+
     <com.cookandroid.myapplication.GraphicsView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/view"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/include" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

@@ -17,6 +17,20 @@
         app:showAsAction="always"
         android:title="health" />
 
+    <item
+        android:id="@+id/action_walk"
+        android:icon="@drawable/walk"
+        android:orderInCategory="3"
+        app:showAsAction="always"
+        android:title="walk"></item>
+
+    <item
+        android:id="@+id/action_rank"
+        android:icon="@drawable/rank"
+        android:orderInCategory="4"
+        app:showAsAction="always"
+        android:title="rank"></item>
+
 
 
 </menu>
