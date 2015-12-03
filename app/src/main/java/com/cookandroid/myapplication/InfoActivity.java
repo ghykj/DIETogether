@@ -1,6 +1,7 @@
 package com.cookandroid.myapplication;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -20,15 +22,20 @@ import android.widget.TextView;
 public class InfoActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
-    private TextView textView,textView2,textView3,textView4,textView5,textView6,textView7, textView8, textView9, textView10, bmi, bmi2;
-    private EditText editText, editText2, editText3, editText4;
+    private TextView textView,textView2,textView3,textView4,textView5,textView6,textView7, textView8, textView9, textView10, textView11, bmi, bmi2;
+    private EditText name, age, height, weight;
     private Button button;
     private RadioGroup radioGroup;
     private RadioButton radioButton, radioButton2;
+    private float bmiNum=0;
+    private String heightStr, weightStr;
+    Calculation cal;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
+
+        cal = new Calculation();
 
         textView = (TextView)findViewById(R.id.textView);
         textView2 = (TextView)findViewById(R.id.textView2);
@@ -40,12 +47,13 @@ public class InfoActivity extends ActionBarActivity {
         textView8 = (TextView)findViewById(R.id.textView8);
         textView9 = (TextView)findViewById(R.id.textView9);
         textView10 = (TextView)findViewById(R.id.textView10);
+        textView11 = (TextView)findViewById(R.id.textView11);
         bmi = (TextView)findViewById(R.id.bmi);
         bmi2 = (TextView)findViewById(R.id.bmi2);
-        editText = (EditText)findViewById(R.id.editText);
-        editText2 = (EditText)findViewById(R.id.editText2);
-        editText3 = (EditText)findViewById(R.id.editText3);
-        editText4 = (EditText)findViewById(R.id.editText4);
+        name = (EditText)findViewById(R.id.editText);
+        age = (EditText)findViewById(R.id.editText2);
+        height = (EditText)findViewById(R.id.editText3);
+        weight = (EditText)findViewById(R.id.editText4);
 
         button = (Button)findViewById(R.id.button);
 
@@ -53,15 +61,32 @@ public class InfoActivity extends ActionBarActivity {
         radioButton = (RadioButton)findViewById(R.id.radioButton);
         radioButton2 = (RadioButton)findViewById(R.id.radioButton2);
 
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                heightStr=height.getText().toString();
+                weightStr=weight.getText().toString();
+                if(heightStr.equals("")) heightStr="0";
+                if(weightStr.equals("")) weightStr="0";
+
+                float bmiNum = cal.bmiCalculator(Float.parseFloat(heightStr), Float.parseFloat(weightStr));
+
+
+                String bmiStr = String.format("%.2f", bmiNum);
+                bmi.setText(bmiStr);
+                bmi2.setText(cal.bmiDecision(bmiNum));
+            }
+        });
+
         toolbar = (Toolbar) findViewById(R.id.include);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

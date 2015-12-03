@@ -56,9 +56,7 @@ public class RankActivity extends ActionBarActivity {
                 this.finish();
                 return true;
             case R.id.action_info:
-                Log.d("셀렉트", "클릭");
                 Intent intent2 = new Intent(this, InfoActivity.class);
-                Log.d("셀렉트", "클릭");
                 startActivity(intent2);
                 this.finish();
                 return true;

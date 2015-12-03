@@ -5,28 +5,28 @@
 
     <item
         android:id="@+id/action_info"
-        android:icon="@drawable/info"
+        android:icon="@drawable/info_icon"
         android:orderInCategory="1"
         app:showAsAction="always"
         android:title="info"/>
 
     <item
         android:id="@+id/action_health"
-        android:icon="@drawable/health"
+        android:icon="@drawable/health_icon"
         android:orderInCategory="2"
         app:showAsAction="always"
         android:title="health" />
 
     <item
         android:id="@+id/action_walk"
-        android:icon="@drawable/walk"
+        android:icon="@drawable/walk_icon"
         android:orderInCategory="3"
         app:showAsAction="always"
         android:title="walk"></item>
 
     <item
         android:id="@+id/action_rank"
-        android:icon="@drawable/rank"
+        android:icon="@drawable/rank_icon"
         android:orderInCategory="4"
         app:showAsAction="always"
         android:title="rank"></item>

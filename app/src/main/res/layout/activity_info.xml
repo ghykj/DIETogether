@@ -12,11 +12,44 @@
         android:layout_alignParentStart="true"
         android:id="@+id/include" />
 
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:paddingTop="30dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="30dp"
+    android:paddingRight="20dp"
+
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:text="아이디"
+    android:textColor="@color/black"
+    android:textSize="20dp"
+    android:id="@+id/textView11"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="ghykj"
+        android:textColor="@color/colorPrimary"
         android:paddingTop="30dp"
+        android:textSize="20dp"
+        android:id="@+id/textView12"
+        android:layout_alignStart="@+id/editText"
+        android:layout_above="@+id/textView"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="30dp"
         android:paddingRight="20dp"
@@ -26,7 +59,7 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         android:id="@+id/textView"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/textView11"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -159,7 +192,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="100"
         android:paddingBottom="10dp"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
@@ -172,7 +204,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="비만"
         android:paddingBottom="10dp"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
@@ -238,6 +269,7 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="5"
+        android:text=""
         android:textColor="#000000"
         android:backgroundTint="@color/colorPrimary"
         android:id="@+id/editText3"
@@ -249,6 +281,7 @@
         android:inputType="numberDecimal"
         android:textColor="#000000"
         android:ems="5"
+        android:text=""
         android:backgroundTint="@color/colorPrimary"
         android:id="@+id/editText4"
         android:layout_above="@+id/textView6"
