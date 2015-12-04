@@ -6,6 +6,9 @@ package com.cookandroid.myapplication;
 public class Calculation {
 
     public float bmiCalculator(float height, float weight){
+
+        if(height==0 || weight==0) return 0;
+
         height = height/100;
         float bmi = weight/(height*height);
         return bmi;

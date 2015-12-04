@@ -5,11 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TabHost;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by LGPC on 2015-11-29.
@@ -17,6 +25,9 @@ import android.widget.TabHost;
 public class HealthActivity extends ActionBarActivity{
     private TabHost tabHost;
     private Toolbar toolbar;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
     //private ActionMenuView amvMenu;
     Context context;
 
@@ -32,7 +43,19 @@ public class HealthActivity extends ActionBarActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        layoutManager=new LinearLayoutManager(getApplicationContext());
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+
+        List<ListItems> items=new ArrayList<>();
+
+        recyclerView.setAdapter(new RecyclerViewAdapter(getApplicationContext(),items,R.layout.activity_health));
+
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -72,7 +72,6 @@ public class InfoActivity extends ActionBarActivity {
 
                 float bmiNum = cal.bmiCalculator(Float.parseFloat(heightStr), Float.parseFloat(weightStr));
 
-
                 String bmiStr = String.format("%.2f", bmiNum);
                 bmi.setText(bmiStr);
                 bmi2.setText(cal.bmiDecision(bmiNum));
