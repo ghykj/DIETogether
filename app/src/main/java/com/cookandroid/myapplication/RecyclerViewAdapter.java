@@ -1,10 +1,17 @@
 package com.cookandroid.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import java.util.List;
 
@@ -16,6 +23,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
     private Context context;
     private List<ListItems> items;
     int itemLayout;
+    HealthDBManager healthDBmanager;
 
     public RecyclerViewAdapter(Context context, List<ListItems>  items, int itemLayout){
         this.context = context;
@@ -26,17 +34,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
     public ListLowViewHolder onCreateViewHolder(final ViewGroup viewGroup,int viewType){
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_low,null);
         return new ListLowViewHolder(v);
-       /* ListLowViewHolder holder = new ListLowViewHolder(v);
-
-        holder.layout.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                TextView healthName = (TextView) v.findViewById(R.id.textView14);
-                String healthNameStr = healthName.getText().toString();
-                TextView healthNum = (TextView) v.findViewById(R.id.textView15);
-
-                Intent intent = new Intent(mContext,HealthInfoActivity.class);
-                intent.putExtra("health name",healthNameStr);
-                mContext.startActivity(intent);*/
     }
 
     @Override
@@ -45,21 +42,103 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(ListLowViewHolder listLowViewHolder, int position){
+    public void onBindViewHolder(final ListLowViewHolder listLowViewHolder, int position){
+
+
         final ListItems item = items.get(position);
 
         listLowViewHolder.healthName.setText(item.getHealthName());
-        listLowViewHolder.healthNum.setText(item.getHealthNum());
-        listLowViewHolder.checkBox.setSelected(item.isCheck());
 
-        listLowViewHolder.delete.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        if(item.getHealthNum()==0){
+            listLowViewHolder.healthNum.setText("");
+        }
+        else listLowViewHolder.healthNum.setText("" + item.getHealthNum() + "회");
 
+        final HealthActivity healthActivity = (HealthActivity) HealthActivity.healthActivity;
+        healthDBmanager  = new HealthDBManager(healthActivity, "health.db", null, 1);
+        SQLiteDatabase db = healthDBmanager.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from healthTABLE", null);
+        while(cursor.moveToNext()){
+            if(cursor.getInt(1)==1) {
+                listLowViewHolder.checkBox.setChecked(true);
+            }
+            else if(cursor.getInt(1)==0) listLowViewHolder.checkBox.setChecked(false);
+        }
+
+        //listLowViewHolder.checkBox.setSelected(item.isCheck());
+
+
+        listLowViewHolder.delete.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                healthDBmanager = new HealthDBManager(v.getContext(), "health.db", null, 1);
+                SQLiteDatabase healthDB = healthDBmanager.getReadableDatabase();
+                healthDBmanager.delete("delete from healthTable where _id = " + item.getId() + ";");
+
+
+                HealthActivity healthActivity = (HealthActivity) HealthActivity.healthActivity;
+                Intent intent = new Intent(context, HealthActivity.class);
+                v.getContext().startActivity(intent);
+                healthActivity.finish();
+
+            }
+        });
+        listLowViewHolder.checkBox.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                if (listLowViewHolder.checkBox.isChecked()) {
+
+                    final HealthActivity healthActivity = (HealthActivity) HealthActivity.healthActivity;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(healthActivity);     // 여기서 this는 Activity의 this
+
+                    builder.setTitle("운동확인메시지")        // 제목 설정
+                            .setMessage("정말로 운동 하셨나요?")        // 메세지 설정
+                            .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                            .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    healthDBmanager = new HealthDBManager(healthActivity, "health.db", null, 1);
+                                    //SQLiteDatabase healthDB = healthDBmanager.getReadableDatabase();
+                                    healthDBmanager.modify("UPDATE healthTABLE SET checked = 1 WHERE _id =" + item.getId() + ";");
+                                    Log.d("d",healthDBmanager.PrintData());
+                                    healthDBmanager.close();
+
+                                }
+                            })
+                            .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                    dialog.show();
+                }
 
             }
         });
 
+
     }
+ /* public void checkDialog(){
+      HealthActivity healthActivity = (HealthActivity) HealthActivity.healthActivity;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(healthActivity);     // 여기서 this는 Activity의 this
+
+                    builder.setTitle("운동확인메시지")        // 제목 설정
+                            .setMessage("정말로 운동 하셨나요?")        // 메세지 설정
+                            .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                            .setPositiveButton("네", new DialogInterface.OnClickListener(){
+                                public void onClick(DialogInterface dialog, int whichButton){
+
+
+                                }
+                            })
+                            .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                    dialog.show();
+    }*/
 
 
 }

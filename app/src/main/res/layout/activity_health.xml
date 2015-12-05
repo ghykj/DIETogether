@@ -10,8 +10,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView13"
-        android:layout_above="@+id/button2" />
+        android:layout_above="@+id/button2"
+        android:layout_below="@+id/imageView5" />
 
     <include
         android:layout_width="match_parent"
@@ -36,8 +36,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="운동 등록하기"
+        android:textSize="20dp"
         android:id="@+id/button2"
         android:layout_above="@+id/include"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/imageView5"
+        android:background="@drawable/health_menu"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

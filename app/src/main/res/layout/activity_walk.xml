@@ -13,14 +13,12 @@
         android:id="@+id/include" />
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:background="@drawable/walktitle"
-        android:scaleType="fitXY"
-        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/imageView5"
+        android:background="@drawable/walk_menu"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+        android:layout_alignParentStart="true" />
 
     <com.cookandroid.myapplication.GraphicsView
         android:layout_width="wrap_content"

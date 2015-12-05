@@ -1,38 +1,20 @@
 package com.cookandroid.myapplication;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ActionMenuView;
-import android.widget.TabHost;
 
 /**
- * Created by LGPC on 2015-11-29.
+ * Created by LGPC on 2015-12-05.
  */
-public class RankActivity extends ActionBarActivity {
-    private TabHost tabHost;
-    private Toolbar toolbar;
-    //private ActionMenuView amvMenu;
-    Context context;
-
-    @Override
+public class SignActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rank);
+        setContentView(R.layout.activity_sign);
 
-        toolbar = (Toolbar) findViewById(R.id.include);// Attaching the layout to the toolbar object
-        //amvMenu = (ActionMenuView) toolbar.findViewById(R.id.amvMenu);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        //toolbar.setNavigationIcon(R.drawable.back);
 
 
     }
@@ -40,7 +22,7 @@ public class RankActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         //MenuInflater inflater = getMenuInflater();
         //inflater.inflate(R.menu.menu_main, amvMenu.getMenu());
         return super.onCreateOptionsMenu(menu);
@@ -53,7 +35,7 @@ public class RankActivity extends ActionBarActivity {
             // User chose the "Settings" item, show the app settings UI...
             //
 
-            case android.R.id.home:
+            /*case android.R.id.home:
                 Intent intent5 = new Intent (this, MainActivity.class);
                 startActivity(intent5);
                 return true;
@@ -74,7 +56,7 @@ public class RankActivity extends ActionBarActivity {
                 Intent intent4 = new Intent(this, WalkActivity.class);
                 startActivity(intent4);
                 this.finish();
-                return true;
+                return true;*/
 
             default:
                 // If we got here, the user's action was not recognized.

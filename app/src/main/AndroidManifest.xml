@@ -23,6 +23,8 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".WalkActivity"></activity>
         <activity android:name=".HealthActivity"></activity>
+        <activity android:name=".HRegisterActivity"></activity>
+        <activity android:name=".SignActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

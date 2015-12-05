@@ -81,8 +81,8 @@ public class InfoActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.include);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
@@ -103,6 +103,7 @@ public class InfoActivity extends ActionBarActivity {
             case R.id.action_health:
                 Intent intent = new Intent(this, HealthActivity.class);
                 startActivity(intent);
+                this.finish();
                 return true;
             case R.id.action_info:
 
@@ -110,11 +111,12 @@ public class InfoActivity extends ActionBarActivity {
             case R.id.action_rank:
                 Intent intent2 = new Intent(this, RankActivity.class);
                 startActivity(intent2);
+                this.finish();
                 return true;
             case R.id.action_walk:
                 Intent intent3 = new Intent(this, WalkActivity.class);
                 startActivity(intent3);
-                //this.finish();
+                this.finish();
                 return true;
 
             default:

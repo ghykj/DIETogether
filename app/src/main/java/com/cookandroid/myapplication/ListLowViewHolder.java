@@ -21,16 +21,18 @@ public class ListLowViewHolder extends RecyclerView.ViewHolder {
     protected CheckBox checkBox;
     protected Button delete;
     protected RelativeLayout layout;
+    protected int checked;
 
     public ListLowViewHolder(View view){
         super(view);
         topLine = (ImageView)view.findViewById(R.id.imageView3);
         bottomLine = (ImageView)view.findViewById(R.id.imageView4);
-        checkBox = (CheckBox)view.findViewById(R.id.checkbox);
+        checkBox = (CheckBox)view.findViewById(R.id.checkBox);
         healthName = (TextView)view.findViewById(R.id.textView14);
         healthNum = (TextView)view.findViewById(R.id.textView15);
         layout = (RelativeLayout)view.findViewById(R.id.relative);
         delete = (Button)view.findViewById(R.id.button3);
+        checked = 0;
         view.setClickable(true);
     }
 

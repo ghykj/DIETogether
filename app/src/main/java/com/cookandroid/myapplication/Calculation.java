@@ -14,20 +14,6 @@ public class Calculation {
         return bmi;
     }
 
-    /*public float manStandardWeight(float height){
-        height = height/100;
-        float standard = height*height*22;
-
-        return standard;
-    }
-
-    public float womanStandardWeight(float height){
-        height = height/100;
-        float standard = height*height*21;
-
-        return standard;
-    }*/
-
     public String bmiDecision(float bmi) {
         if(bmi<20) return "저체중";
         else if(bmi<25) return "정상";

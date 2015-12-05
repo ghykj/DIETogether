@@ -3,6 +3,8 @@ package com.cookandroid.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TabHost;
 
 import java.util.ArrayList;
@@ -28,20 +31,36 @@ public class HealthActivity extends ActionBarActivity{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private Button button;
+    public static Activity healthActivity;
+
     //private ActionMenuView amvMenu;
     Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health);
+        context = this;
 
+        healthActivity = HealthActivity.this;
         toolbar = (Toolbar) findViewById(R.id.include);// Attaching the layout to the toolbar object
+        button = (Button) findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent3 = new Intent(context, HRegisterActivity.class);
+                startActivity(intent3);
+                finish();
+            }
+        });
         //amvMenu = (ActionMenuView) toolbar.findViewById(R.id.amvMenu);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
+
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
         layoutManager=new LinearLayoutManager(getApplicationContext());
@@ -50,6 +69,20 @@ public class HealthActivity extends ActionBarActivity{
         recyclerView.setLayoutManager(layoutManager);
 
         List<ListItems> items=new ArrayList<>();
+
+
+
+        HealthDBManager manager  = new HealthDBManager(getApplicationContext(), "health.db", null, 1);
+
+
+        SQLiteDatabase db = manager.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from healthTABLE", null);
+
+        while(cursor.moveToNext()) {
+            if(cursor.getString(2)!="")
+                items.add(new ListItems(cursor.getInt(0), cursor.getInt(1), cursor.getString(2),cursor.getInt(3)));
+        }
+
 
         recyclerView.setAdapter(new RecyclerViewAdapter(getApplicationContext(),items,R.layout.activity_health));
 

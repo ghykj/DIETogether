@@ -33,8 +33,10 @@ public class MainActivity extends ActionBarActivity {
        //amvMenu = (ActionMenuView) toolbar.findViewById(R.id.amvMenu);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 

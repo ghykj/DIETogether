@@ -38,14 +38,14 @@ public class WalkActivity extends ActionBarActivity{
         setContentView(R.layout.activity_walk);
 
         view = (GraphicsView)findViewById(R.id.view);
-        imageView2 = (ImageView)findViewById(R.id.imageView2);
+        imageView2 = (ImageView)findViewById(R.id.imageView5);
 
 
         toolbar = (Toolbar) findViewById(R.id.include);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setHomeButtonEnabled(true);
 
 
 
@@ -67,6 +67,7 @@ public class WalkActivity extends ActionBarActivity{
             case R.id.action_health:
                 Intent intent = new Intent(this, HealthActivity.class);
                 startActivity(intent);
+                this.finish();
                 return true;
             case R.id.action_info:
                 Intent intent2 = new Intent(this, InfoActivity.class);
@@ -76,6 +77,7 @@ public class WalkActivity extends ActionBarActivity{
             case R.id.action_rank:
                 Intent intent3 = new Intent(this, RankActivity.class);
                 startActivity(intent3);
+                this.finish();
                 return true;
             case R.id.action_walk:
                 return true;

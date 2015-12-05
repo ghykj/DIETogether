@@ -12,4 +12,12 @@
         android:layout_alignParentStart="true"
         android:id="@+id/include" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/imageView5"
+        android:background="@drawable/rank_menu"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
