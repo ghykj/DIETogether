@@ -20,6 +20,9 @@ public class ListItems {
     public int getHealthNum(){
         return healthNum;
     }
+    public void setChecked(int checked){
+        this.checked=checked;
+    }
 
     public ListItems(int id, int checked, String healthName, int healthNum){
         this.id=id;

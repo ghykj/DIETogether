@@ -37,7 +37,6 @@
 
 
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="ghykj"
         android:textColor="@color/colorPrimary"
         android:paddingTop="30dp"
         android:textSize="20dp"

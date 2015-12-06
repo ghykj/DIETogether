@@ -4,20 +4,122 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by LGPC on 2015-12-05.
  */
 public class SignActivity extends Activity {
+
+    private EditText id, name, age, height, weight;
+    private TextView bmi,bmi2;
+    private RadioGroup radioGroup;
+    private RadioButton female, male;
+    private Button button;
+
+    String dbID;
+    String dbName;
+    int dbAge;
+    int dbGender;
+    float dbHeight;
+    float dbWeight;
+    float dbBMI;
+    String dbDecision;
+    String heightStr;
+    String weightStr;
+
+    Calculation cal;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign);
 
+        cal = new Calculation();
+        bmi = (TextView)findViewById(R.id.signBMI);
+        bmi2 = (TextView)findViewById(R.id.signBMI2);
+        id = (EditText)findViewById(R.id.signID);
+        name = (EditText)findViewById(R.id.signName);
+        age = (EditText)findViewById(R.id.signAge);
+        height = (EditText)findViewById(R.id.signHeight);
+        weight = (EditText)findViewById(R.id.signWeight);
+        female = (RadioButton)findViewById(R.id.signFemale);
+        male = (RadioButton)findViewById(R.id.signMale);
+        radioGroup = (RadioGroup)findViewById(R.id.signRadioGroup);
+        button = (Button)findViewById(R.id.signButton);
+
+        final InfoDBManager manager = new InfoDBManager(getApplicationContext(), "Info.db", null, 1);
+
+
+
+
+
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //정보받아오기
+
+
+                //String bmiStr = String.format("%.2f", bmiNum);
+
+                if (id.getText().toString().equals("") || name.getText().toString().equals("")
+                        || age.getText().toString().equals("") || height.getText().toString().equals("") || weight.getText().toString().equals("")
+                        || (female.isChecked()==false && male.isChecked()==false)) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "빠진 부분이 있나 확인 해 주세요!", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                } else {
+
+
+
+                    dbID = id.getText().toString();
+                    dbName = name.getText().toString();
+                    dbAge = Integer.parseInt(age.getText().toString());
+                    dbHeight = Float.parseFloat(height.getText().toString());
+                    dbWeight = Float.parseFloat(weight.getText().toString());
+
+                    if (female.isChecked()) dbGender = 1;
+                    else if (male.isChecked()) dbGender = 0;
+
+                    dbBMI = cal.bmiCalculator(dbHeight, dbWeight);
+                    dbDecision = cal.bmiDecision(dbBMI);
+
+                    manager.insert("insert into infoTABLE VALUES (null,'"
+                            + dbID + "','"
+                            + dbName + "',"
+                            + dbGender + ","
+                            + dbAge + ","
+                            + dbHeight + ","
+                            + dbWeight + ","
+                            + dbBMI + ",'"
+                            + dbDecision + "');");
+                    manager.close();
+                    Intent intent3 = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent3);
+                    finish();
+
+                    Log.d("싸인", manager.PrintData() + "좀되라 ㅎㅎ");
+                }
+            }
+        });
+
+
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

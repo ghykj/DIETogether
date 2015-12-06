@@ -79,8 +79,7 @@ public class HealthActivity extends ActionBarActivity{
         Cursor cursor = db.rawQuery("select * from healthTABLE", null);
 
         while(cursor.moveToNext()) {
-            if(cursor.getString(2)!="")
-                items.add(new ListItems(cursor.getInt(0), cursor.getInt(1), cursor.getString(2),cursor.getInt(3)));
+            items.add(new ListItems(cursor.getInt(0), cursor.getInt(1), cursor.getString(2),cursor.getInt(3)));
         }
 
 

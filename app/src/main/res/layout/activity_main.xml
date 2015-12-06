@@ -14,12 +14,13 @@
 
     <ImageView
         android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:id="@+id/imageView2"
+        android:layout_height="250dp"
+        android:id="@+id/overweight"
         android:background="@drawable/main_overweight"
         android:scaleType="fitXY"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
@@ -28,5 +29,31 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:id="@+id/skinny"
+        android:background="@drawable/main_skinny"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/overweight"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:id="@+id/standard"
+        android:background="@drawable/main_standard"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/overweight"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:id="@+id/obesity"
+        android:background="@drawable/main_obesity"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/overweight"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

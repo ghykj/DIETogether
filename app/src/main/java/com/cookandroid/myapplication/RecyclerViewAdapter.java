@@ -58,14 +58,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
         healthDBmanager  = new HealthDBManager(healthActivity, "health.db", null, 1);
         SQLiteDatabase db = healthDBmanager.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from healthTABLE", null);
-        while(cursor.moveToNext()){
-            if(cursor.getInt(1)==1) {
-                listLowViewHolder.checkBox.setChecked(true);
-            }
-            else if(cursor.getInt(1)==0) listLowViewHolder.checkBox.setChecked(false);
-        }
+//        Log.d("커서",healthDBmanager.PrintData()+"");
+        Log.d("밑에",item.getChecked()+"");
+//        while(cursor.moveToNext()){
+//            if(cursor.getInt(1)==1) {
+//                listLowViewHolder.checkBox.setChecked(true);
+//            }
+//            else if(cursor.getInt(1)==0) listLowViewHolder.checkBox.setChecked(false);
+//        }
 
-        //listLowViewHolder.checkBox.setSelected(item.isCheck());
+        listLowViewHolder.checkBox.setChecked(item.getChecked()==1);
 
 
         listLowViewHolder.delete.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +99,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
                                     healthDBmanager = new HealthDBManager(healthActivity, "health.db", null, 1);
                                     //SQLiteDatabase healthDB = healthDBmanager.getReadableDatabase();
                                     healthDBmanager.modify("UPDATE healthTABLE SET checked = 1 WHERE _id =" + item.getId() + ";");
-                                    Log.d("d",healthDBmanager.PrintData());
+                                    Log.d("체크박스", healthDBmanager.PrintData());
+                                    healthDBmanager.close();
+
+                                }
+                            })
+                            .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                    dialog.show();
+                }
+                else if(!listLowViewHolder.checkBox.isChecked()){
+                    final HealthActivity healthActivity = (HealthActivity) HealthActivity.healthActivity;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(healthActivity);     // 여기서 this는 Activity의 this
+
+                    builder.setTitle("운동취소메시지")        // 제목 설정
+                            .setMessage("운동을 취소하시겠어요?")        // 메세지 설정
+                            .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                            .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    healthDBmanager = new HealthDBManager(healthActivity, "health.db", null, 1);
+                                    //SQLiteDatabase healthDB = healthDBmanager.getReadableDatabase();
+                                    healthDBmanager.modify("UPDATE healthTABLE SET checked = 0 WHERE _id =" + item.getId() + ";");
+                                    Log.d("d", healthDBmanager.PrintData());
                                     healthDBmanager.close();
 
                                 }

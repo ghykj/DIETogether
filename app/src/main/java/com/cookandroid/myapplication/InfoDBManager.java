@@ -1,6 +1,7 @@
 package com.cookandroid.myapplication;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -14,7 +15,7 @@ public class InfoDBManager extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE infoTABLE (id TEXT PRIMARY KEY, name TEXT, gender INTEGER, HEIGHT INTEGER, bmi FLOAT, bmi_decision TEXT);") ;
+        db.execSQL("CREATE TABLE infoTABLE (_id INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, name TEXT, gender INTEGER, age INTEGER, height FLOAT, weight FLOAT, bmi FLOAT, bmi_decision TEXT);") ;
 
     }
 
@@ -44,7 +45,20 @@ public class InfoDBManager extends SQLiteOpenHelper {
 
     public void deleteDB() {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("drop Table healthTABLE");
+        db.execSQL("drop Table infoTABLE");
         db.close();
+    }
+
+    public String PrintData() {
+        SQLiteDatabase db = getReadableDatabase();
+        String str = "";
+
+        Cursor cursor = db.rawQuery("select * from infoTABLE", null);
+        while (cursor.moveToNext()) {
+            str += cursor.getInt(4);
+
+        }
+
+        return str;
     }
 }
