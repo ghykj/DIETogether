@@ -107,6 +107,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
                             .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     dialog.cancel();
+                                    listLowViewHolder.checkBox.setChecked(item.getChecked()==1);
                                 }
                             });
 
@@ -132,7 +133,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
                             })
                             .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
+
+                                    listLowViewHolder.checkBox.setChecked(true
+                                    );
                                     dialog.cancel();
+
                                 }
                             });
 

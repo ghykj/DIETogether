@@ -21,4 +21,11 @@ public class Calculation {
         else return "비만";
     }
 
+    public double caloriesCalculator(int step){
+        double calories = step *0.044;
+
+        return calories;
+
+    }
+
 }
