@@ -2,6 +2,7 @@ package com.cookandroid.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,6 +15,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
 
 /**
  * Created by LGPC on 2015-12-05.
@@ -96,19 +101,52 @@ public class SignActivity extends Activity {
                     dbBMI = cal.bmiCalculator(dbHeight, dbWeight);
                     dbDecision = cal.bmiDecision(dbBMI);
 
-                    manager.insert("insert into infoTABLE VALUES (null,'"
-                            + dbID + "','"
-                            + dbName + "',"
-                            + dbGender + ","
-                            + dbAge + ","
-                            + dbHeight + ","
-                            + dbWeight + ","
-                            + dbBMI + ",'"
-                            + dbDecision + "');");
-                    manager.close();
-                    Intent intent3 = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent3);
-                    finish();
+                    JSONObject jsonObject = new JSONObject();
+                    try{
+                        jsonObject.put("id",dbID);
+                        jsonObject.put("name",URLEncoder.encode(dbName, "UTF-8"));
+                        if(dbGender==1) jsonObject.put("gender",URLEncoder.encode("여성", "UTF-8"));
+                        else jsonObject.put("gender", URLEncoder.encode("남성", "UTF-8"));
+                        jsonObject.put("age",dbAge);
+                        jsonObject.put("height",(int)dbHeight);
+                        jsonObject.put("weight",(int)dbWeight);
+                    }
+                    catch (Exception e){
+
+                    }
+                     new AsyncTask<JSONObject, String, Integer>() {
+                        @Override
+                        protected Integer doInBackground(JSONObject... params) {
+
+                            return NetworkManager.Join(getApplicationContext(),params[0]);
+                        }
+
+                         //메인쓰레드로
+                         @Override
+                         protected void onPostExecute(Integer aBoolean) {
+                             super.onPostExecute(aBoolean);
+                             Log.d("불리언값",""+aBoolean);
+                             if (aBoolean==0||aBoolean==1){
+                                 manager.insert("insert into infoTABLE VALUES (null,'"
+                                         + dbID + "','"
+                                         + dbName + "',"
+                                         + dbGender + ","
+                                         + dbAge + ","
+                                         + dbHeight + ","
+                                         + dbWeight + ","
+                                         + dbBMI + ",'"
+                                         + dbDecision + "');");
+                                 manager.close();
+                                 Intent intent3 = new Intent(getApplicationContext(), MainActivity.class);
+                                 startActivity(intent3);
+                                 finish();
+                             }else if(aBoolean==2){
+
+                                 Toast.makeText(getApplicationContext(), "중복된 아이디 입니다.", Toast.LENGTH_SHORT).show();
+                             }
+                         }
+                     }.execute(jsonObject);
+
 
                     Log.d("싸인", manager.PrintData() + "좀되라 ㅎㅎ");
                 }

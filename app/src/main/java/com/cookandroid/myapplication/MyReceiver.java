@@ -20,7 +20,9 @@ public class MyReceiver extends BroadcastReceiver {
 
         Log.d("알람매니저확인", "여기들어왓나??????????");
         healthDBManager.modify("UPDATE healthTABLE SET checked=0");
-        Toast.makeText(context,"지워졌지롱",Toast.LENGTH_LONG).show();
+        Toast.makeText(context,"하루를 시작합니다.",Toast.LENGTH_LONG).show();
+
+
         healthDBManager.close();
 
         // TODO: This method is called when the BroadcastReceiver is receiving

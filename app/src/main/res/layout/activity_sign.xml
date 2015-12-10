@@ -224,7 +224,8 @@
             android:textColor="#000000"
             android:text="여성"
 
-            android:id="@+id/signFemale" />
+            android:id="@+id/signFemale"
+            android:checked="false" />
 
     </RadioGroup>
 
@@ -305,16 +306,6 @@
         android:layout_above="@+id/signName"
         android:layout_alignEnd="@+id/signName"
         android:layout_toEndOf="@+id/signBMI" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="중복확인"
-        android:id="@+id/button5"
-        android:layout_alignBottom="@+id/textView11"
-        android:layout_toEndOf="@+id/signID" />
 
 
 </RelativeLayout>

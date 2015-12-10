@@ -6,13 +6,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 /**
@@ -24,6 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
     private List<ListItems> items;
     int itemLayout;
     HealthDBManager healthDBmanager;
+    NetworkManager networkManager;
 
     public RecyclerViewAdapter(Context context, List<ListItems>  items, int itemLayout){
         this.context = context;
@@ -99,6 +109,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
                                     healthDBmanager = new HealthDBManager(healthActivity, "health.db", null, 1);
                                     //SQLiteDatabase healthDB = healthDBmanager.getReadableDatabase();
                                     healthDBmanager.modify("UPDATE healthTABLE SET checked = 1 WHERE _id =" + item.getId() + ";");
+
+
+                                    new AsyncTask<String, String, Integer>() {
+                                        @Override
+                                        protected Integer doInBackground(String... params) {
+
+                                            return networkManager.commitHealth(context, item.getHealthName(), item.getHealthNum());
+                                        }
+
+                                        //메인쓰레드로
+                                        @Override
+                                        protected void onPostExecute(Integer aBoolean) {
+                                        }
+                                    }.execute("");
+
+
+
                                     Log.d("체크박스", healthDBmanager.PrintData());
                                     healthDBmanager.close();
 
@@ -106,6 +133,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
                             })
                             .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
+
+
                                     dialog.cancel();
                                     listLowViewHolder.checkBox.setChecked(item.getChecked()==1);
                                 }
@@ -126,6 +155,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
                                     healthDBmanager = new HealthDBManager(healthActivity, "health.db", null, 1);
                                     //SQLiteDatabase healthDB = healthDBmanager.getReadableDatabase();
                                     healthDBmanager.modify("UPDATE healthTABLE SET checked = 0 WHERE _id =" + item.getId() + ";");
+                                    new AsyncTask<String, String, Integer>() {
+                                        @Override
+                                        protected Integer doInBackground(String... params) {
+
+                                            return networkManager.deleteHealth(context,item.getHealthName(),item.getHealthNum());
+                                        }
+
+                                        //메인쓰레드로
+                                        @Override
+                                        protected void onPostExecute(Integer aBoolean) {
+                                        }
+                                    }.execute("");
+
                                     Log.d("d", healthDBmanager.PrintData());
                                     healthDBmanager.close();
 

@@ -27,7 +27,7 @@ public class WalkActivity extends ActionBarActivity{
     private Button button;
     private Intent intentMyService;
     private BroadcastReceiver receiver;
-    private boolean flag = true;
+    private boolean flag = false;
     private String step;
     private String calories;
     TextView countText;
@@ -57,7 +57,6 @@ public class WalkActivity extends ActionBarActivity{
 
         //����Ǳ� ���ϴ� ���� ���
 
-
         final StepDBManager manager = new StepDBManager(getApplicationContext(), "step.db", null, 1);
         SQLiteDatabase db = manager.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from stepTABLE where date ='" + cal.currentTime() + "'", null);
@@ -75,6 +74,10 @@ public class WalkActivity extends ActionBarActivity{
         button = (Button) findViewById(R.id.pedometerButton);
 
 
+        button.setText("만보기멈추기");
+        IntentFilter mainFilter = new IntentFilter("com.cookandroid.mayapplication.PedometerService");
+        registerReceiver(receiver, mainFilter);
+        startService(intentMyService);
 
         button.setOnClickListener(new View.OnClickListener() {
 

@@ -58,13 +58,13 @@ public class PedometerService extends Service implements SensorEventListener {
 
         cal = new Calculation();
         final StepDBManager manager = new StepDBManager(getApplicationContext(), "step.db", null, 1);
-        SQLiteDatabase db = manager.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
-        if(cursor.getCount()<=0){
-            manager.insert("insert into stepTABLE VALUES (null,'"
-                    + cal.currentTime() + "','"
-                    + step + "','"
-                    + calories + "');");
+            SQLiteDatabase db = manager.getReadableDatabase();
+            Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
+            if(cursor.getCount()<=0){
+                manager.insert("insert into stepTABLE VALUES (null,'"
+                        + cal.currentTime() + "','"
+                        + step + "','"
+                        + calories + "');");
             manager.close();
         }
         Log.d("컬럼수는몇개일까",cursor.getCount()+"");
@@ -135,11 +135,21 @@ public class PedometerService extends Service implements SensorEventListener {
                     SQLiteDatabase db = manager.getReadableDatabase();
                     Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
 
-                    step = count++;
-                    calories = (float) cal.caloriesCalculator(step);
 
+                    cursor.moveToFirst();
+                    if(cursor.getCount()>0){
+                        count = cursor.getInt(2);
+                        count++;
+                        step =count;
+                        calories = (float)cal.caloriesCalculator(step);
+                        //calories = cursor.getFloat(3);
+                    }
+                    else {
 
+                        step = count++;
+                        calories = (float) cal.caloriesCalculator(step);
 
+                    }
                     manager.modify("UPDATE stepTABLE SET step="+step);
                     manager.modify("UPDATE stepTABLE SET cal="+calories);
                     manager.close();
@@ -149,8 +159,8 @@ public class PedometerService extends Service implements SensorEventListener {
 
 
 
-                    SQLiteDatabase db = manager.getReadableDatabase();
-                    Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
+                    //SQLiteDatabase db = manager.getReadableDatabase();
+                    //Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
 
                     cursor.moveToFirst();
                     String msg = cursor.getInt(2) + "";

@@ -33,7 +33,7 @@ public class HealthActivity extends ActionBarActivity{
     private RecyclerView.LayoutManager layoutManager;
     private Button button;
     public static Activity healthActivity;
-
+    Calculation cal;
     //private ActionMenuView amvMenu;
     Context context;
 
@@ -43,6 +43,7 @@ public class HealthActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health);
         context = this;
+        cal = new Calculation();
 
         healthActivity = HealthActivity.this;
         toolbar = (Toolbar) findViewById(R.id.include);// Attaching the layout to the toolbar object
@@ -76,11 +77,39 @@ public class HealthActivity extends ActionBarActivity{
 
 
         SQLiteDatabase db = manager.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from healthTABLE", null);
+        Cursor cursor = db.rawQuery("select * from healthTABLE where date ='"+cal.currentTime()+"'", null);
+
+        //final StepDBManager manager = new StepDBManager(getApplicationContext(), "step.db", null, 1);
+        //SQLiteDatabase db = manager.getReadableDatabase();
+        //Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
+        if(cursor.getCount()<=0){
+            Cursor cursor2 = db.rawQuery("select * from healthTABLE", null);
+            items.clear();
+            while(cursor2.moveToNext()){
+                manager.insert("insert into healthTABLE VALUES(null,'"
+                        + cal.currentTime() + "','"
+                        + 0 + "','"
+                        + cursor2.getString(3) + "','"
+                        + cursor2.getInt(4) + "');");
+
+            }
+            db.close();
+            /*manager.insert("insert into stepTABLE VALUES (null,'"
+                    + cal.currentTime() + "','"
+                    + step + "','"
+                    + calories + "');");
+            manager.close();*/
+        }
+
+        SQLiteDatabase db2 = manager.getReadableDatabase();
+        Cursor cursor2 = db2.rawQuery("select * from healthTABLE where date ='"+cal.currentTime()+"'", null);
 
         while(cursor.moveToNext()) {
-            items.add(new ListItems(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3),cursor.getInt(4)));
+                items.add(new ListItems(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3),cursor.getInt(4)));
         }
+
+        db2.close();
+
 
 
         recyclerView.setAdapter(new RecyclerViewAdapter(getApplicationContext(),items,R.layout.activity_health));

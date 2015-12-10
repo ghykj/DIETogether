@@ -3,17 +3,14 @@ package com.cookandroid.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ActionMenuView;
 import android.widget.Button;
 import android.widget.TabHost;
 
@@ -21,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by LGPC on 2015-11-29.
+ * Created by LGPC on 2015-12-11.
  */
-public class RankActivity extends ActionBarActivity {
+public class FriendHealthActivity extends ActionBarActivity {
     private TabHost tabHost;
     private Toolbar toolbar;
     //private ActionMenuView amvMenu;
@@ -32,12 +29,12 @@ public class RankActivity extends ActionBarActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private Button button;
+    public static FriendHealthActivity friendHealthActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rank);
-
+        setContentView(R.layout.activity_friend);
         toolbar = (Toolbar) findViewById(R.id.include);// Attaching the layout to the toolbar object
         //amvMenu = (ActionMenuView) toolbar.findViewById(R.id.amvMenu);
         setSupportActionBar(toolbar);
@@ -46,24 +43,13 @@ public class RankActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         //toolbar.setNavigationIcon(R.drawable.back);
 
-        recyclerView=(RecyclerView)findViewById(R.id.view2);
+        recyclerView=(RecyclerView)findViewById(R.id.view3);
         layoutManager=new LinearLayoutManager(getApplicationContext());
-        button = (Button)findViewById(R.id.button6);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent3 = new Intent(getApplicationContext(), FRegisterActivity.class);
-                startActivity(intent3);
-                finish();
-            }
-        });
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
 
-        List<ListRankItems> items=new ArrayList<>();
+        List<ListFHealthItems> items=new ArrayList<>();
 
 
 
@@ -82,14 +68,14 @@ public class RankActivity extends ActionBarActivity {
             }
         }.execute("");*/
 
-        recyclerView.setAdapter(new RecyclerRankViewAdapter(getApplicationContext(), items, R.layout.activity_rank));
+        recyclerView.setAdapter(new RecyclerViewFHealthAdapter(getApplicationContext(), items, R.layout.activity_friend));
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         //MenuInflater inflater = getMenuInflater();
         //inflater.inflate(R.menu.menu_main, amvMenu.getMenu());
         return super.onCreateOptionsMenu(menu);

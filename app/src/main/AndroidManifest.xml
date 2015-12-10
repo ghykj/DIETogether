@@ -31,7 +31,8 @@
         <activity android:name=".HealthActivity" />
         <activity android:name=".HRegisterActivity" />
         <activity android:name=".SignActivity" />
-
+        <activity android:name=".FRegisterActivity" />
+        <activity android:name=".FriendHealthActivity"/>
 
         <service android:name=".PedometerService" ></service>
 
