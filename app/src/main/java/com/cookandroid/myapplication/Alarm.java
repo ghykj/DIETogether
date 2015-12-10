@@ -30,7 +30,7 @@ public class Alarm {
         Calendar current = Calendar.getInstance();
         Calendar midnight = Calendar.getInstance();
         midnight.set(current.YEAR,current.MONTH,current.DAY_OF_MONTH,23,59,59);
-        millisecond = midnight.getTimeInMillis() - current.getTimeInMillis();
+        millisecond = (midnight.getTimeInMillis()+1000) - current.getTimeInMillis();
         manager.setRepeating(AlarmManager.RTC,System.currentTimeMillis()+millisecond,ONE_DAY,sender);
     }
 }

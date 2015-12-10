@@ -25,10 +25,12 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textSize="100dp"
+        android:paddingBottom="20dp"
         android:textColor="@color/colorPrimary"
         android:id="@+id/countText"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/pedometerButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="81dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -39,5 +41,22 @@
 
         android:layout_below="@+id/imageView5"
         android:layout_alignParentEnd="true" />
+
+    <com.cookandroid.myapplication.GraphicsView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/view"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 kcal"
+        android:textSize ="30dp"
+        android:textColor = "@color/colorPrimary"
+        android:id="@+id/calText"
+        android:layout_alignBottom="@+id/countText"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

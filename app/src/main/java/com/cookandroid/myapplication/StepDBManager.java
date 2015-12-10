@@ -16,25 +16,27 @@ public class StepDBManager extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE stepTABLE (" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
-                " step INTEGER, cal FLOAT);");
+                " date TEXT," +
+                " step INTEGER, " +
+                "cal FLOAT);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS healthTABLE");
+        db.execSQL("DROP TABLE IF EXISTS stepTABLE");
         onCreate(db);
     }
 
     public void modify(String _query){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(_query);
-        db.close();
+        //db.close();
     }
 
     public void insert(String _query) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(_query);
-        db.close();
+        //db.close();
     }
 
     public void delete(String _query) {
@@ -45,14 +47,14 @@ public class StepDBManager extends SQLiteOpenHelper{
 
     public void deleteDB() {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("drop Table healthTABLE");
+        db.execSQL("drop Table stepTABLE");
         db.close();
     }
     public String PrintData() {
         SQLiteDatabase db = getReadableDatabase();
         String str = "";
 
-        Cursor cursor = db.rawQuery("select * from healthTABLE", null);
+        Cursor cursor = db.rawQuery("select * from stepTABLE", null);
         while(cursor.moveToNext()) {
             str += cursor.getInt(1)
 

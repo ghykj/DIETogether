@@ -6,6 +6,8 @@ package com.cookandroid.myapplication;
 
 import android.app.Service;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,17 +16,20 @@ import android.os.IBinder;
 import android.util.Log;
 
 
-public class MyServiceIntent extends Service implements SensorEventListener {
+public class PedometerService extends Service implements SensorEventListener {
 
     public static int step = 0;
 
     public int count = step;
+    public float calories = 0;
 
     private long lastTime;
     private float speed;
     private float lastX;
     private float lastY;
     private float lastZ;
+    Calculation cal;
+    StepDBManager manager;
 
 
     private float x, y, z;
@@ -50,8 +55,19 @@ public class MyServiceIntent extends Service implements SensorEventListener {
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
-        Log.i("MyServiceIntent", "Service is Create");
 
+        cal = new Calculation();
+        final StepDBManager manager = new StepDBManager(getApplicationContext(), "step.db", null, 1);
+        SQLiteDatabase db = manager.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
+        if(cursor.getCount()<=0){
+            manager.insert("insert into stepTABLE VALUES (null,'"
+                    + cal.currentTime() + "','"
+                    + step + "','"
+                    + calories + "');");
+            manager.close();
+        }
+        Log.d("컬럼수는몇개일까",cursor.getCount()+"");
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerormeterSensor = sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -62,7 +78,11 @@ public class MyServiceIntent extends Service implements SensorEventListener {
     public void onStart(Intent intent, int startId) {
         // TODO Auto-generated method stub
         super.onStart(intent, startId);
-        Log.i("MyServiceIntent","Service is started");
+
+        //db가 존재하는지 확인해서 있으면 삭제하고 다시 만들어버리자
+
+
+
 
 
         if (accelerormeterSensor != null)
@@ -74,7 +94,6 @@ public class MyServiceIntent extends Service implements SensorEventListener {
     public void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-        Log.i("MyServiceIntent","Service is destroy");
 
         if (sensorManager != null)
             sensorManager.unregisterListener(this);
@@ -109,17 +128,40 @@ public class MyServiceIntent extends Service implements SensorEventListener {
 
                 if (speed > SHAKE_THRESHOLD) {
 
-                    Log.e("Step!", "SHAKE");
+                    final StepDBManager manager = new StepDBManager(getApplicationContext(), "step.db", null, 1);
 
-                    Intent myFilteredResponse = new Intent("com.cookandroid.mayapplication.MyServiceIntent");
+                    Intent myFilteredResponse = new Intent("com.cookandroid.mayapplication.PedometerService");
+
+                    SQLiteDatabase db = manager.getReadableDatabase();
+                    Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
 
                     step = count++;
+                    calories = (float) cal.caloriesCalculator(step);
 
-                    Log.d("stepppppppp",step+"");
-                    String msg = step + "" ;
-                    myFilteredResponse.putExtra("serviceData", msg);
+
+
+                    manager.modify("UPDATE stepTABLE SET step="+step);
+                    manager.modify("UPDATE stepTABLE SET cal="+calories);
+                    manager.close();
+
+                    Log.d("stepppppppp", step + "");
+                    //String msg = step + "" ;
+
+
+
+                    SQLiteDatabase db = manager.getReadableDatabase();
+                    Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
+
+                    cursor.moveToFirst();
+                    String msg = cursor.getInt(2) + "";
+                    String calStr = String.format("%.2f",cursor.getFloat(3));
+                    myFilteredResponse.putExtra("step", msg);
+                    //String calStr =String.format("%.2f", calories);
+                    msg = calStr+" kcal";
+                    myFilteredResponse.putExtra("calories",msg);
 
                     sendBroadcast(myFilteredResponse);
+                    db.close();
 
                 }
                 lastX = event.values[DATA_X];

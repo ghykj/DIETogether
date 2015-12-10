@@ -1,5 +1,10 @@
 package com.cookandroid.myapplication;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by LGPC on 2015-12-03.
  */
@@ -21,11 +26,16 @@ public class Calculation {
         else return "비만";
     }
 
-    public double caloriesCalculator(int step){
-        double calories = step *0.044;
+    public float caloriesCalculator(int step){
+        double calories = step *0.044*0.001;
 
-        return calories;
+        return (float)calories;
 
+    }
+    public String currentTime(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        Calendar calendar = Calendar.getInstance();
+        return sdf.format(new Date(calendar.getTimeInMillis()));
     }
 
 }

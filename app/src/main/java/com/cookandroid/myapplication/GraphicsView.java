@@ -30,7 +30,7 @@ class GraphicsView extends View {
         super(context,attributeSet);
         bigCircleBounds = new RectF();
         paint = new Paint();
-       // intentMyService = new Intent(getContext(), MyServiceIntent.class);
+       // intentMyService = new Intent(getContext(), PedometerService.class);
         //receiver = new MyMainLocalRecever();
         //IntentFilter mainFilter = new IntentFilter("com.cookandroid.mayapplication.step");
         //context.registerReceiver(receiver, mainFilter);

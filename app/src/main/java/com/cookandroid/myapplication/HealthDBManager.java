@@ -16,6 +16,7 @@ public class HealthDBManager extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE healthTABLE (" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                " date TEXT," +
                 " checked INTEGER," +
                 " healthName TEXT," +
                 " healthNum INTEGER);");

@@ -25,6 +25,7 @@ public class HRegisterActivity extends ActionBarActivity {
     private TextView textView, textView2,textView3;
     //private ActionMenuView amvMenu;
     Context context;
+    Calculation cal;
 
 
 
@@ -41,6 +42,7 @@ public class HRegisterActivity extends ActionBarActivity {
         textView3 = (TextView) findViewById(R.id.textView19);
         healthName = (EditText) findViewById(R.id.editText5);
         healthNum = (EditText) findViewById(R.id.editText6);
+        cal = new Calculation();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +50,7 @@ public class HRegisterActivity extends ActionBarActivity {
                 if (!healthName.getText().toString().equals("")) {
                     if(healthNum.getText().toString().equals("")){
                         manager.insert("insert into healthTABLE VALUES (null,'"
+                                +cal.currentTime()+"','"
                                 +0+"','"
                                 + healthName.getText().toString() + "','"
                                 +0+ "');");
@@ -58,6 +61,7 @@ public class HRegisterActivity extends ActionBarActivity {
                     }
                     else {
                         manager.insert("insert into healthTABLE VALUES (null,'"
+                                +cal.currentTime()+"','"
                                 + 0 + "','"
                                 + healthName.getText().toString() + "','"
                                 + Integer.parseInt(healthNum.getText().toString()) + "');");

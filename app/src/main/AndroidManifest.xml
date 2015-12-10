@@ -33,7 +33,7 @@
         <activity android:name=".SignActivity" />
 
 
-        <service android:name=".MyServiceIntent" ></service>
+        <service android:name=".PedometerService" ></service>
 
         <receiver
             android:name=".MyReceiver"

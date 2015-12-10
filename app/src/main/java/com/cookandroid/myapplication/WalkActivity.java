@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,13 +24,15 @@ public class WalkActivity extends ActionBarActivity{
     private Toolbar toolbar;
     private GraphicsView view;
     private ImageView imageView2;
-    private Button btnStopService;
+    private Button button;
     private Intent intentMyService;
     private BroadcastReceiver receiver;
     private boolean flag = true;
-    private String serviceData;
+    private String step;
+    private String calories;
     TextView countText;
-
+    TextView calText;
+    Calculation cal;
 
 
 
@@ -36,11 +40,13 @@ public class WalkActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
 
-        intentMyService = new Intent(this, MyServiceIntent.class);
+        cal = new Calculation();
+        intentMyService = new Intent(this, PedometerService.class);
         receiver = new MyMainLocalRecever();
         //view = (GraphicsView) findViewById(R.id.view);
         imageView2 = (ImageView) findViewById(R.id.imageView5);
         countText = (TextView) findViewById(R.id.countText);
+        calText = (TextView) findViewById(R.id.calText);
 
 
         toolbar = (Toolbar) findViewById(R.id.include);
@@ -52,15 +58,25 @@ public class WalkActivity extends ActionBarActivity{
         //����Ǳ� ���ϴ� ���� ���
 
 
+        final StepDBManager manager = new StepDBManager(getApplicationContext(), "step.db", null, 1);
+        SQLiteDatabase db = manager.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from stepTABLE where date ='" + cal.currentTime() + "'", null);
+        if(cursor.getCount()>0){
+            cursor.moveToFirst();
+            countText.setText((cursor.getString(2)).toString());
+            calText.setText(String.format("%.2f", cursor.getFloat(3))+" kcal");
+        }
+        //db.close();
+
 
 
 //        CountText = (TextView)findViewById(R.id.TextView01);
 
-        btnStopService = (Button) findViewById(R.id.pedometerButton);
+        button = (Button) findViewById(R.id.pedometerButton);
 
 
 
-        btnStopService.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -70,11 +86,9 @@ public class WalkActivity extends ActionBarActivity{
 
 
 
-                    btnStopService.setText("만보기멈추기");
-                    IntentFilter mainFilter = new IntentFilter("com.cookandroid.mayapplication.MyServiceIntent");
-
+                    button.setText("만보기멈추기");
+                    IntentFilter mainFilter = new IntentFilter("com.cookandroid.mayapplication.PedometerService");
                     registerReceiver(receiver, mainFilter);
-
                     startService(intentMyService);
                     //view.turnOnPedometer();
 
@@ -91,7 +105,8 @@ public class WalkActivity extends ActionBarActivity{
                 }
                 else {
 
-                    btnStopService.setText("만보기시작");
+                    button.setText("만보기시작");
+
                     //view.turnOffPedometer();
 
                     // TODO Auto-generated method stub
@@ -124,10 +139,12 @@ public class WalkActivity extends ActionBarActivity{
         @Override
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
-            serviceData = intent.getStringExtra("serviceData");
-            Log.d("serviceData","과연.."+serviceData);
+            step = intent.getStringExtra("step");
+            calories = intent.getStringExtra("calories");
+            Log.d("serviceData", "과연.." + step);
             //count = serviceData;
-            countText.setText(serviceData);
+            countText.setText(step);
+            calText.setText(calories);
             //Toast.makeText(getApplicationContext(), "Walking . . . ", 1).show();
         }
         public String getCount(){
