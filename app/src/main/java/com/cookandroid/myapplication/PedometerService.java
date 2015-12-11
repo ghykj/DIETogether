@@ -5,6 +5,7 @@ package com.cookandroid.myapplication;
  */
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,6 +31,7 @@ public class PedometerService extends Service implements SensorEventListener {
     private float lastZ;
     Calculation cal;
     StepDBManager manager;
+    //private BroadcastReceiver receiver;
 
 
     private float x, y, z;
@@ -94,6 +96,8 @@ public class PedometerService extends Service implements SensorEventListener {
     public void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
+       // unregisterReceiver(receiver);
+
 
         if (sensorManager != null)
             sensorManager.unregisterListener(this);

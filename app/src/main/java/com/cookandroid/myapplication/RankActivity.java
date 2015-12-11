@@ -3,6 +3,8 @@ package com.cookandroid.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.TabHost;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,9 +32,12 @@ public class RankActivity extends ActionBarActivity {
     //private ActionMenuView amvMenu;
     Context context;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    //private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private Button button;
+    RecyclerRankViewAdapter adapter;
+    List<ListRankItems> items = new ArrayList<>();
+    Calculation cal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class RankActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         //toolbar.setNavigationIcon(R.drawable.back);
 
+        cal = new Calculation();
         recyclerView=(RecyclerView)findViewById(R.id.view2);
         layoutManager=new LinearLayoutManager(getApplicationContext());
         button = (Button)findViewById(R.id.button6);
@@ -63,26 +70,38 @@ public class RankActivity extends ActionBarActivity {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        List<ListRankItems> items=new ArrayList<>();
-
-
-
-        /*new AsyncTask<String, String, ArrayList<FitData> >() {
+        new AsyncTask<String, String, ArrayList<ListRankItems>>() {
             @Override
-            protected ArrayList<FitData> doInBackground(String... params) {
+            protected ArrayList<ListRankItems> doInBackground(String... params) {
 
-                return NetworkManager.getFreindData();
+                return NetworkManager.getFreindData(getApplicationContext());
             }
 
             //메인쓰레드로
             @Override
-            protected void onPostExecute(ArrayList<FitData>  aBoolean) {
-                super.onPostExecute(aBoolean);
+            protected void onPostExecute(ArrayList<ListRankItems> aBoolean) {
 
+               // final InfoDBManager manager = new InfoDBManager(getApplicationContext(), "Info.db", null, 1);
+                final StepDBManager manager = new StepDBManager(getApplicationContext(), "step.db", null, 1);
+                SQLiteDatabase db = manager.getReadableDatabase();
+                Cursor cursor = db.rawQuery("select * from stepTABLE where date ='" + cal.currentTime() + "'", null);
+                cursor.moveToFirst();
+
+
+
+                items.addAll(aBoolean);
+                items.add(new ListRankItems("나", 0, null, cursor.getInt(2), cursor.getFloat(3)));
+                Collections.sort(items);
+                adapter.notifyDataSetChanged();
+                for(int i = 0 ; i < items.size(); i++){
+                    Log.d("랭크에 잘 들어오니",""+items.get(i));
+                }
             }
-        }.execute("");*/
+        }.execute("");
 
-        recyclerView.setAdapter(new RecyclerRankViewAdapter(getApplicationContext(), items, R.layout.activity_rank));
+        adapter = new RecyclerRankViewAdapter(this, items, R.layout.activity_rank);
+        recyclerView.setAdapter(adapter);
+
 
     }
 
@@ -102,10 +121,10 @@ public class RankActivity extends ActionBarActivity {
             // User chose the "Settings" item, show the app settings UI...
             //
 
-            case android.R.id.home:
+            /*case android.R.id.home:
                 Intent intent5 = new Intent (this, MainActivity.class);
                 startActivity(intent5);
-                return true;
+                return true;*/
 
             case R.id.action_health:
                 Intent intent = new Intent(this, HealthActivity.class);

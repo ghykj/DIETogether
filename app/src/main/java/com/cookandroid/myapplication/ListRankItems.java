@@ -1,19 +1,23 @@
 package com.cookandroid.myapplication;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 /**
  * Created by LGPC on 2015-12-04.
  */
-public class ListRankItems {
-
+public class ListRankItems implements Comparable {
+    private String userID;
     private String userName;
     private int rank;
-    private int id;
+    //private int id;
     private int walking;
     private float calories;
     //private int checked;
     //private String date;
 
-    public int getId(){return this.id;}
+
+    public String getUserId(){return this.userID;}
     public int getRank(){return this.rank;}
     public String getUserName(){
         return this.userName;
@@ -29,8 +33,8 @@ public class ListRankItems {
     //    this.checked=checked;
     //}
 
-    public ListRankItems(int id, int rank, String userName, int walking, float calories){
-        this.id=id;
+    public ListRankItems(String userID, int rank, String userName, int walking, float calories){
+        this.userID=userID;
         this.userName=userName;
         this.walking=walking;
         this.calories=calories;
@@ -38,6 +42,11 @@ public class ListRankItems {
     }
 
 
+    @Override
+    public int compareTo(Object another) {
+        if(this.getWalking()>((ListRankItems)another).getWalking())return -1;
+        else return 1;
+    }
 
 
 }

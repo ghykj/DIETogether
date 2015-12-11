@@ -7,9 +7,10 @@ public class ListFHealthItems {
 
     private String healthName;
     private int healthNum;
-    private int id;
+    private String id;
+    private String date;
 
-    public int getId(){return this.id;}
+    public String getId(){return this.id;}
     //public int getChecked(){return this.checked;}
     public String getHealthName(){
         return healthName;
@@ -17,13 +18,15 @@ public class ListFHealthItems {
     public int getHealthNum(){
         return healthNum;
     }
+    public String date(){ return date;}
     //public String getDate() {return date;}
     //public void setChecked(int checked){
        // this.checked=checked;
    // }
 
-    public ListFHealthItems(int id, String healthName, int healthNum){
+    public ListFHealthItems(String id, String date, String healthName, int healthNum){
         this.id=id;
+        this.date = date;
         //this.date=date;
         //this.checked=checked;
         this.healthName=healthName;

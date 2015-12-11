@@ -1,5 +1,6 @@
 package com.cookandroid.myapplication;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,7 +25,7 @@ public class RecyclerRankViewAdapter extends RecyclerView.Adapter<ListRankViewHo
 
 
     int itemLayout;
-    HealthDBManager healthDBmanager;
+    //HealthDBManager healthDBmanager;
 
     public RecyclerRankViewAdapter(Context context, List<ListRankItems> items, int itemLayout){
         this.context = context;
@@ -33,7 +34,7 @@ public class RecyclerRankViewAdapter extends RecyclerView.Adapter<ListRankViewHo
     }
     @Override
     public ListRankViewHolder onCreateViewHolder(final ViewGroup viewGroup,int viewType){
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_low,null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_rank,null);
         return new ListRankViewHolder(v);
     }
 
@@ -50,22 +51,30 @@ public class RecyclerRankViewAdapter extends RecyclerView.Adapter<ListRankViewHo
 
         final FriendHealthActivity friendHealthActivity = (FriendHealthActivity) FriendHealthActivity.friendHealthActivity;
 
-        /*listRankViewHolder.healthName.setText(item.getHealthName());
+        listRankViewHolder.userName.setText(item.getUserId());
+        listRankViewHolder.calories.setText(String.format("%.2f", item.getCalories())+"kcal");
+        listRankViewHolder.rank.setText(position+1+"위  ");
+        listRankViewHolder.walking.setText(String.valueOf(item.getWalking())+"걸음");
 
-        if(item.getHealthNum()==0){
-            listRankViewHolder.healthNum.setText("");
-        }
-        else listRankViewHolder.healthNum.setText("" + item.getHealthNum() + "회");
-        */
+
+        //final HealthActivity healthActivity = (HealthActivity) HealthActivity.healthActivity;
+        //healthDBmanager  = new HealthDBManager(healthActivity, "health.db", null, 1);
+        //SQLiteDatabase db = healthDBmanager.getReadableDatabase();
+        //Cursor cursor = db.rawQuery("select * from healthTABLE", null);
 
 
         listRankViewHolder.userName.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
 
-                FriendHealthActivity friendHealthActivity = (FriendHealthActivity) FriendHealthActivity.friendHealthActivity;
-                Intent intent = new Intent(context, FriendHealthActivity.class);
+                //FriendHealthActivity friendHealthActivity = (FriendHealthActivity) FriendHealthActivity.friendHealthActivity;
+                Intent intent = new Intent(v.getContext(), FriendHealthActivity.class);
+                String friendID=item.getUserId();
+                Log.d("friendID인텐트전",""+friendID);
+                intent.putExtra("friendID", friendID);
+                Log.d("friendIDdlsx엘",""+friendID);
+
                 v.getContext().startActivity(intent);
-                friendHealthActivity.finish();
+                //((Activity)context).finish();
             }
         });
         /*listRankViewHolder.checkBox.setOnClickListener(new View.OnClickListener(){

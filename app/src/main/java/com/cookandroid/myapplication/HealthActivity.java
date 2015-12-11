@@ -103,7 +103,6 @@ public class HealthActivity extends ActionBarActivity{
 
         SQLiteDatabase db2 = manager.getReadableDatabase();
         Cursor cursor2 = db2.rawQuery("select * from healthTABLE where date ='"+cal.currentTime()+"'", null);
-
         while(cursor.moveToNext()) {
                 items.add(new ListItems(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3),cursor.getInt(4)));
         }

@@ -33,7 +33,7 @@ public class RecyclerViewFHealthAdapter extends RecyclerView.Adapter<ListFHealth
     }
     @Override
     public ListFHealthViewHolder onCreateViewHolder(final ViewGroup viewGroup,int viewType){
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_low,null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_fhealth,null);
         return new ListFHealthViewHolder(v);
     }
 
@@ -44,6 +44,8 @@ public class RecyclerViewFHealthAdapter extends RecyclerView.Adapter<ListFHealth
 
     @Override
     public void onBindViewHolder(final ListFHealthViewHolder ListFHealthViewHolder, int position) {
+
+
 
     }
 }

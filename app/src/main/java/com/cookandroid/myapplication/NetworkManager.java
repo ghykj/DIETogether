@@ -20,12 +20,15 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by LGPC on 2015-12-10.
  */
 public class NetworkManager {
     public static String SERVER_URL = "http://54.65.85.60:3333/";
+    Calculation cal;
 
     public static  void setupPOSTConnection(String postParam,HttpURLConnection urlConnection)throws IOException {
         urlConnection.setDoOutput(true);
@@ -163,9 +166,16 @@ public class NetworkManager {
             return 0;
         }
     }
-    public static ArrayList<FitData> getFreindData(){
+    public static ArrayList<ListRankItems> getFreindData(final Context context){
+
+        final InfoDBManager manager = new InfoDBManager(context, "Info.db", null, 1);
+        SQLiteDatabase db = manager.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from infoTABLE", null);
+
+        cursor.moveToFirst();
         try {
-            URL loginUrl = new URL(SERVER_URL + "health/friends/id"+"너아이디 디비에서 불러와서 적어야됨");
+
+            URL loginUrl = new URL(SERVER_URL + "walking/friends/id/"+cursor.getString(1));
             HttpURLConnection urlConnection = (HttpURLConnection) loginUrl.openConnection();
             setupGETConnection(urlConnection);
             InputStream response = urlConnection.getInputStream();
@@ -173,11 +183,13 @@ public class NetworkManager {
             if(response != null) strResult = convertInputStreamToString(response);
             JSONObject jsonObject =new JSONObject(strResult);
             JSONArray array = jsonObject.getJSONArray("data");
-            JSONObject temp =(JSONObject)array.get(0);
-            ArrayList<FitData> data = new ArrayList<FitData>();
-            FitData tempData = new FitData();
-            tempData.afs = temp.getInt("id");
-            data.add(tempData);
+            ArrayList<ListRankItems> data = new ArrayList<>();
+            for(int i=0; i<array.length(); i++){
+                JSONObject temp =(JSONObject)array.get(i);
+                ListRankItems tempData = new ListRankItems(temp.getString("id"),0,null,temp.getInt("walking_count"),(float)temp.getDouble("calorie"));
+                data.add(tempData);
+            }
+            Collections.sort(data);
             return data;
         } catch (Exception e){
             e.printStackTrace();
@@ -190,7 +202,7 @@ public class NetworkManager {
         final InfoDBManager InfoDBManager = new InfoDBManager(context, "Info.db", null, 1);
         SQLiteDatabase db = manager.getReadableDatabase();
         SQLiteDatabase db2 = InfoDBManager.getReadableDatabase();
-        Cursor cursorInfo = db2.rawQuery("select * from infoTABLE",null);
+        Cursor cursorInfo = db2.rawQuery("select * from infoTABLE", null);
         Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
         cursor.moveToFirst();
         cursorInfo.moveToFirst();
@@ -200,7 +212,7 @@ public class NetworkManager {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id",cursorInfo.getString(1));
             jsonObject.put("walking_count", cursor.getInt(2));
-            jsonObject.put("calorie",cursor.getInt(3));
+            jsonObject.put("calorie", cursor.getInt(3));
             String strJson = jsonObject.toString();
             Log.d("Login Str", strJson);
             setupPOSTConnection(strJson,urlConnection);
@@ -314,6 +326,38 @@ public class NetworkManager {
         } catch (Exception e){
             e.printStackTrace();
             return 0;
+        }
+    }
+    public static ArrayList<ListFHealthItems> getFreindHealthData(final Context context, String friendID){
+
+        final InfoDBManager manager = new InfoDBManager(context, "Info.db", null, 1);
+        SQLiteDatabase db = manager.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from infoTABLE", null);
+        Calculation cal = new Calculation();
+
+        cursor.moveToFirst();
+        try {
+
+            URL loginUrl = new URL(SERVER_URL + "health/friends/id/"+cursor.getString(1));
+            HttpURLConnection urlConnection = (HttpURLConnection) loginUrl.openConnection();
+            setupGETConnection(urlConnection);
+            InputStream response = urlConnection.getInputStream();
+            String strResult="";
+            if(response != null) strResult = convertInputStreamToString(response);
+            JSONObject jsonObject =new JSONObject(strResult);
+            JSONArray array = jsonObject.getJSONArray("data");
+            ArrayList<ListFHealthItems> data = new ArrayList<>();
+            for(int i=0; i<array.length(); i++){
+                JSONObject temp =(JSONObject)array.get(i);
+                ListFHealthItems tempData = new ListFHealthItems(temp.getString("id"),temp.getString("date"),temp.getString("health_name"),temp.getInt("health_num"));
+                if(tempData.getId().equals(friendID))
+                    data.add(tempData);
+            }
+            //Collections.sort(data);
+            return data;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

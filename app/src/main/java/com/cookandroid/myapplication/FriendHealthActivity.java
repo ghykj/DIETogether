@@ -3,11 +3,15 @@ package com.cookandroid.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.widget.Button;
 import android.widget.TabHost;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,9 +31,13 @@ public class FriendHealthActivity extends ActionBarActivity {
     //private ActionMenuView amvMenu;
     Context context;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    //private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private Button button;
+    private String friendID;
+    private Intent intent;
+    RecyclerViewFHealthAdapter adapter;
+    List<ListFHealthItems> items=new ArrayList<>();
     public static FriendHealthActivity friendHealthActivity;
 
     @Override
@@ -49,8 +58,33 @@ public class FriendHealthActivity extends ActionBarActivity {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        List<ListFHealthItems> items=new ArrayList<>();
+        friendID = getIntent().getStringExtra("friendID");
 
+        new AsyncTask<String, String, ArrayList<ListFHealthItems>>() {
+            @Override
+            protected ArrayList<ListFHealthItems> doInBackground(String... params) {
+
+                return NetworkManager.getFreindHealthData(getApplicationContext(),friendID);
+            }
+
+            //메인쓰레드로
+            @Override
+            protected void onPostExecute(ArrayList<ListFHealthItems> aBoolean ) {
+                // final InfoDBManager manager = new InfoDBManager(getApplicationContext(), "Info.db", null, 1);
+                //final StepDBManager manager = new StepDBManager(getApplicationContext(), "step.db", null, 1);
+                //SQLiteDatabase db = manager.getReadableDatabase();
+                //Cursor cursor = db.rawQuery("select * from stepTABLE where date ='" + cal.currentTime() + "'", null);
+                //cursor.moveToFirst();
+
+                items.addAll(aBoolean);
+                //Collections.sort(items);
+                adapter.notifyDataSetChanged();
+
+            }
+        }.execute("");
+
+        adapter = new RecyclerViewFHealthAdapter(this, items, R.layout.activity_friend);
+        recyclerView.setAdapter(adapter);
 
 
         /*new AsyncTask<String, String, ArrayList<FitData> >() {
@@ -68,7 +102,7 @@ public class FriendHealthActivity extends ActionBarActivity {
             }
         }.execute("");*/
 
-        recyclerView.setAdapter(new RecyclerViewFHealthAdapter(getApplicationContext(), items, R.layout.activity_friend));
+       // recyclerView.setAdapter(new RecyclerViewFHealthAdapter(getApplicationContext(), items, R.layout.activity_friend));
 
     }
 
