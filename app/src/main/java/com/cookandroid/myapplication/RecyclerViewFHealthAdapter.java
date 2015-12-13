@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class RecyclerViewFHealthAdapter extends RecyclerView.Adapter<ListFHealth
 
     private Context context;
     private List<ListFHealthItems> items;
+    private TextView textView14, textView15;
     int itemLayout;
     HealthDBManager healthDBmanager;
     NetworkManager networkManager;
@@ -34,6 +36,7 @@ public class RecyclerViewFHealthAdapter extends RecyclerView.Adapter<ListFHealth
     @Override
     public ListFHealthViewHolder onCreateViewHolder(final ViewGroup viewGroup,int viewType){
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_fhealth,null);
+
         return new ListFHealthViewHolder(v);
     }
 
@@ -43,7 +46,13 @@ public class RecyclerViewFHealthAdapter extends RecyclerView.Adapter<ListFHealth
     }
 
     @Override
-    public void onBindViewHolder(final ListFHealthViewHolder ListFHealthViewHolder, int position) {
+    public void onBindViewHolder(final ListFHealthViewHolder listFHealthViewHolder, int position) {
+
+        final ListFHealthItems item = items.get(position);
+        listFHealthViewHolder.healthName.setText(item.getHealthName());
+        listFHealthViewHolder.healthNum.setText(String.valueOf(item.getHealthNum()) + "회");
+        //listFHealthViewHolder.rank.setText(position+1+"위  ");
+        //listFHealthViewHolder.walking.setText(String.valueOf(item.getWalking())+"걸음");
 
 
 

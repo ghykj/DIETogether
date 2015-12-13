@@ -20,13 +20,13 @@ public class SplashActivity extends Activity {
 
 
     NetworkManager networkManager;
-    Alarm alarm;
+    //Alarm alarm;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        alarm = new Alarm();
-        alarm.registerAlarm(getApplicationContext());
+       // alarm = new Alarm();
+        //alarm.registerAlarm(getApplicationContext());
         Handler hd = new Handler();
         hd.postDelayed(new splashhandler() , 3000); // 3초 후에 hd Handler 실행
     }

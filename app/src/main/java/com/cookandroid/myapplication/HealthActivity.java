@@ -79,9 +79,6 @@ public class HealthActivity extends ActionBarActivity{
         SQLiteDatabase db = manager.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from healthTABLE where date ='"+cal.currentTime()+"'", null);
 
-        //final StepDBManager manager = new StepDBManager(getApplicationContext(), "step.db", null, 1);
-        //SQLiteDatabase db = manager.getReadableDatabase();
-        //Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
         if(cursor.getCount()<=0){
             Cursor cursor2 = db.rawQuery("select * from healthTABLE", null);
             items.clear();

@@ -24,6 +24,7 @@ public class ListFHealthItems {
        // this.checked=checked;
    // }
 
+
     public ListFHealthItems(String id, String date, String healthName, int healthNum){
         this.id=id;
         this.date = date;

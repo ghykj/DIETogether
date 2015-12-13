@@ -5,7 +5,6 @@ package com.cookandroid.myapplication;
  */
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -31,7 +30,6 @@ public class PedometerService extends Service implements SensorEventListener {
     private float lastZ;
     Calculation cal;
     StepDBManager manager;
-    //private BroadcastReceiver receiver;
 
 
     private float x, y, z;
@@ -60,13 +58,13 @@ public class PedometerService extends Service implements SensorEventListener {
 
         cal = new Calculation();
         final StepDBManager manager = new StepDBManager(getApplicationContext(), "step.db", null, 1);
-            SQLiteDatabase db = manager.getReadableDatabase();
-            Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
-            if(cursor.getCount()<=0){
-                manager.insert("insert into stepTABLE VALUES (null,'"
-                        + cal.currentTime() + "','"
-                        + step + "','"
-                        + calories + "');");
+        SQLiteDatabase db = manager.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from stepTABLE where date ='"+cal.currentTime()+"'", null);
+        if(cursor.getCount()<=0){
+            manager.insert("insert into stepTABLE VALUES (null,'"
+                    + cal.currentTime() + "','"
+                    + 0 + "','"
+                    + 0 + "');");
             manager.close();
         }
         Log.d("컬럼수는몇개일까",cursor.getCount()+"");
@@ -96,8 +94,6 @@ public class PedometerService extends Service implements SensorEventListener {
     public void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-       // unregisterReceiver(receiver);
-
 
         if (sensorManager != null)
             sensorManager.unregisterListener(this);

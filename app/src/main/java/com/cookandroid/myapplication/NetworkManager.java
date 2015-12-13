@@ -18,6 +18,7 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -349,7 +350,10 @@ public class NetworkManager {
             ArrayList<ListFHealthItems> data = new ArrayList<>();
             for(int i=0; i<array.length(); i++){
                 JSONObject temp =(JSONObject)array.get(i);
-                ListFHealthItems tempData = new ListFHealthItems(temp.getString("id"),temp.getString("date"),temp.getString("health_name"),temp.getInt("health_num"));
+                //URLEncoder.encode(healthName, "UTF-8")
+                ListFHealthItems tempData = new ListFHealthItems(URLDecoder.decode(temp.getString("id"), "UTF-8"), temp.getString("date"), URLDecoder.decode(temp.getString("health_name"), "UTF-8"),temp.getInt("health_count"));
+
+                // ListFHealthItems tempData = new ListFHealthItems(temp.getString("id"),temp.getString("date"),temp.getString("health_name"),temp.getInt("health_count"));
                 if(tempData.getId().equals(friendID))
                     data.add(tempData);
             }

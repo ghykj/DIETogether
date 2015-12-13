@@ -71,7 +71,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ListLowViewHolder>
 //        Log.d("커서",healthDBmanager.PrintData()+"");
         Log.d("밑에",item.getChecked()+"");
 //        while(cursor.moveToNext()){
-//            if(cursor.getInt(1)==1) {
+//            if(cursor.getInt(1)==1) QKd
 //                listLowViewHolder.checkBox.setChecked(true);
 //            }
 //            else if(cursor.getInt(1)==0) listLowViewHolder.checkBox.setChecked(false);
