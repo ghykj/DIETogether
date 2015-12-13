@@ -18,7 +18,7 @@ public class ListFHealthItems {
     public int getHealthNum(){
         return healthNum;
     }
-    public String date(){ return date;}
+    public String getDate(){ return date;}
     //public String getDate() {return date;}
     //public void setChecked(int checked){
        // this.checked=checked;

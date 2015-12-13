@@ -354,7 +354,7 @@ public class NetworkManager {
                 ListFHealthItems tempData = new ListFHealthItems(URLDecoder.decode(temp.getString("id"), "UTF-8"), temp.getString("date"), URLDecoder.decode(temp.getString("health_name"), "UTF-8"),temp.getInt("health_count"));
 
                 // ListFHealthItems tempData = new ListFHealthItems(temp.getString("id"),temp.getString("date"),temp.getString("health_name"),temp.getInt("health_count"));
-                if(tempData.getId().equals(friendID))
+                if(tempData.getId().equals(friendID)&&tempData.getDate().equals(cal.currentTime()))
                     data.add(tempData);
             }
             //Collections.sort(data);
